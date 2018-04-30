@@ -3,11 +3,8 @@ const frame = {
     element: null,
     init: function () {
         this.element = document.getElementById('sandboxFrame');
-    },
-    onLoaded: function () {
+        this.element.src = '../sandbox/content.html';
         return new Promise(function (resolve, reject) {
-            if (this.isLoaded()) return resolve();
-
             this.element.addEventListener('load', function () {
                 resolve();
             });
@@ -16,28 +13,20 @@ const frame = {
             });
         }.bind(this));
     },
-    isLoaded: function () {
-        var iframeDoc = this.element.contentDocument || this.element.contentWindow.document;
-        return iframeDoc.readyState === 'complete';
-    },
     postMessage: function (msg) {
         this.element.contentWindow.postMessage(msg, '*');
     }
 };
 
-function init () {
-    frame.init();
+async function init () {
+    await frame.init();
 
     var port = chrome.extension.connect({
         name: "Sample Communication"
     });
     port.postMessage("Hi BackGround");
     port.onMessage.addListener(function(msg) {
-        console.log('message recieved:', msg);
-        frame.onLoaded().then(function () {
-            frame.postMessage(msg, '*');
-            console.log('message sent');
-        });
+        frame.postMessage(msg, '*');
     });
 }
 

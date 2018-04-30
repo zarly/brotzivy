@@ -6,7 +6,6 @@ function init () {
         data () {
             window.addEventListener('message', function (msg) {
                 data.url = msg.data;
-                alert(msg.data);
             });
             var data = {
                 url: '-',
