@@ -3,7 +3,7 @@ const frame = {
     element: null,
     init: function () {
         this.element = document.getElementById('sandboxFrame');
-        this.element.src = '../sandbox/content.html';
+        this.element.src = '../sandbox/index.html';
         return new Promise(function (resolve, reject) {
             this.element.addEventListener('load', function () {
                 resolve();

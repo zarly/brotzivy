@@ -16,6 +16,6 @@
         "persistent": false
     },
     "sandbox": {
-        "pages": ["sandbox/content.html"]
+        "pages": ["sandbox/index.html"]
     }
 }
