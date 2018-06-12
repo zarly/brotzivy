@@ -1,4 +1,6 @@
 
+const API_BASE = 'http://localhost:9000';
+
 function init () {
     console.group('Init');
     var app = new Vue({
@@ -9,9 +11,19 @@ function init () {
             });
             var data = {
                 url: '-',
-                message: 'Hello Vue!'
+                message: '',
+                reports: [1,2,3],
             };
             return data;
+        },
+        async created () {
+            const res = await fetch(API_BASE + '/reports');
+        },
+        methods: {
+            sendReport () {
+                console.log('FFF');
+                alert(this.message);
+            }
         },
     });
     console.groupEnd('Init');

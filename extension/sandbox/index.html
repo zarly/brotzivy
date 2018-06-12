@@ -9,9 +9,16 @@
             Url:
             <span v-text="url"></span>
         </div>
-        <pre v-text="message"></pre>
-        <textarea v-model="message"></textarea>
-        <button>Send</button>
+        <div>
+            <template v-for="(report, index) in reports">
+                <hr v-if="index" style="height: 1px; background: #aaa; border: 0;" />
+                <pre v-text="report"></pre>
+            </template>
+        </div>
+        <div style="position: relative; padding-right: 60px;">
+            <textarea v-model="message" style="width: 100%; height: 60px; resize: none;"></textarea>
+            <button @click="sendReport" style="position: absolute; top: 0; right: 0; width: 60px; height: 60px;">>></button>
+        </div>
     </div>
     <script src="../lib/vue.js"></script>
     <script src="./index.js"></script>
