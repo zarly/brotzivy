@@ -3,21 +3,31 @@
     <meta charset="utf-8">
 </head>
 <body>
-    <b>Отзывы о сайтах</b>
+    <b><span style="color: #f00;">бро</span>тзывы - отзывы для своих</b>
     <div id="app">
-        <div>
-            Url:
-            <span v-text="url"></span>
+        <div style="position: relative;">
+            <input type="text" v-model="url" readonly style="width: 100%; color: #aaa; border: 0; " />
+            <textarea v-model="message" placeholder="Отзыв о странице..." style="width: 100%; height: 60px; resize: none; outline: 0; border-right: 0;"></textarea>
         </div>
+        <div style="position: relative; height: 20px;">
+            <button @click="sendReport(1)" style="position: absolute; top: 0; left: 0; width: 8%; height: 20px;">1</button>
+            <button @click="sendReport(2)" style="position: absolute; top: 0; left: 8%; width:8%; height: 20px;">2</button>
+            <button @click="sendReport(3)" style="position: absolute; top: 0; left: 16%; width: 8%; height: 20px;">3</button>
+            <button @click="sendReport(4)" style="position: absolute; top: 0; left: 24%; width: 8%; height: 20px;">4</button>
+            <button @click="sendReport(5)" style="position: absolute; top: 0; left: 32%; width: 8%; height: 20px;">5</button>
+            <button @click="sendReport(null)" style="position: absolute; top: 0; left: 40%; width: 20%; height: 20px;" title="Нейтрально">?</button>
+            <button @click="sendReport(6)" style="position: absolute; top: 0; left: 60%; width: 8%; height: 20px;">6</button>
+            <button @click="sendReport(7)" style="position: absolute; top: 0; left: 68%; width: 8%; height: 20px;">7</button>
+            <button @click="sendReport(8)" style="position: absolute; top: 0; left: 76%; width: 8%; height: 20px;">8</button>
+            <button @click="sendReport(9)" style="position: absolute; top: 0; left: 84%; width: 8%; height: 20px;">9</button>
+            <button @click="sendReport(10)" style="position: absolute; top: 0; left: 92%; width: 8%; height: 20px;">10</button>
+        </div>
+        <br /><br />
         <div>
             <template v-for="(report, index) in reports">
                 <hr v-if="index" style="height: 1px; background: #aaa; border: 0;" />
                 <pre v-text="report"></pre>
             </template>
-        </div>
-        <div style="position: relative; padding-right: 60px;">
-            <textarea v-model="message" style="width: 100%; height: 60px; resize: none;"></textarea>
-            <button @click="sendReport" style="position: absolute; top: 0; right: 0; width: 60px; height: 60px;">>></button>
         </div>
     </div>
     <script src="../lib/vue.js"></script>

@@ -20,9 +20,19 @@ function init () {
             const res = await fetch(API_BASE + '/reports');
         },
         methods: {
-            sendReport () {
-                console.log('FFF');
-                alert(this.message);
+            sendReport (mark) {
+                if (!mark && !this.message) {
+                    alert('Бро, оцени страницу или напиши что-нибудь');
+                    return;
+                }
+                fetch(API_BASE + '/receive', {
+                    method: 'POST',
+                    body: JSON.stringify({
+                        url: this.url,
+                        message: this.message,
+                        mark,
+                    }),
+                });
             }
         },
     });
