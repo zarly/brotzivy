@@ -7,9 +7,13 @@
     <div id="app">
         <div style="position: relative;">
             <input type="text" v-model="url" readonly style="width: 100%; color: #aaa; border: 0; " />
-            <textarea v-model="message" placeholder="Отзыв о странице..." style="width: 100%; height: 60px; resize: none; outline: 0; border-right: 0;"></textarea>
+            <textarea v-model="message" 
+             :readonly="reportSendingStage !== 0"
+             placeholder="Отзыв о странице..." 
+             style="width: 100%; height: 60px; resize: none; outline: 0;"
+             :style="{opacity: (reportSendingStage === 0 ? 1 : 0.5)}"></textarea>
         </div>
-        <div style="position: relative; height: 20px;">
+        <div v-if="reportSendingStage === 0" style="position: relative; height: 20px;">
             <button @click="sendReport(1)" style="position: absolute; top: 0; left: 0; width: 8%; height: 20px;">1</button>
             <button @click="sendReport(2)" style="position: absolute; top: 0; left: 8%; width:8%; height: 20px;">2</button>
             <button @click="sendReport(3)" style="position: absolute; top: 0; left: 16%; width: 8%; height: 20px;">3</button>
@@ -22,11 +26,17 @@
             <button @click="sendReport(9)" style="position: absolute; top: 0; left: 84%; width: 8%; height: 20px;">9</button>
             <button @click="sendReport(10)" style="position: absolute; top: 0; left: 92%; width: 8%; height: 20px;">10</button>
         </div>
+        <div v-if="reportSendingStage === 1" style="position: relative; height: 20px; text-align: center;">
+            Отправка...
+        </div>
+        <div v-if="reportSendingStage === 2" style="position: relative; height: 20px; text-align: center; color: #aaa;">
+            Отправлено
+        </div>
         <br /><br />
         <div>
-            <template v-for="(report, index) in reports">
+            <template v-for="(report, index) in reportsWithMessages">
                 <hr v-if="index" style="height: 1px; background: #aaa; border: 0;" />
-                <pre v-text="report"></pre>
+                <pre v-text="report.message"></pre>
             </template>
         </div>
     </div>
