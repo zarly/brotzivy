@@ -1,5 +1,12 @@
 
-const API_BASE = 'http://localhost:9000';
+const API_BASE = 'http://localhost:9000/v1';
+
+function formatDate (date) {
+    const Y = date.substr(0, 4);
+    const M = date.substr(5, 2);
+    const D = date.substr(8, 2);
+    return D + '.' + M + '.' + Y;
+}
 
 function init () {
     console.group('Init');
@@ -35,13 +42,25 @@ function init () {
         methods: {
             async update () {
                 const pageUrl = new URL(this.url);
-                const apiUrl = new URL(API_BASE + '/reports');
+                const apiUrl = new URL(API_BASE + '/reports/list');
                 apiUrl.searchParams.append('host', pageUrl.host);
                 apiUrl.searchParams.append('page', pageUrl.pathname);
 
                 const res = await fetch(apiUrl);
                 const data = await res.json();
-                this.reports = data.rows;
+                this.reports = data.rows.map(report => {
+                    const mark = ('number' === typeof report.mark) ? (report.mark - 5) : 0;
+                    return {
+                        author: report.author || 'Аноним',
+                        date: formatDate(report.createdAt),
+                        message: report.message,
+                        mark: (mark > 0) ? ('+' + mark) : ('' + mark),
+                        markColor: (mark > 3) ? '#0a8' : 
+                                   (mark < -3) ? '#c44' : 
+                                   (mark > 0 || mark < 0) ? '#aa0' :
+                                   'transparent',
+                    };
+                });
                 this.totalCount = data.count;
             },
             async sendReport (mark) {
@@ -51,7 +70,7 @@ function init () {
                 }
 
                 this.reportSendingStage = 1;
-                await fetch(API_BASE + '/write', {
+                await fetch(API_BASE + '/reports/write', {
                     method: 'POST',
                     headers: {
                         'Accept': 'application/json',

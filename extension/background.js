@@ -1,4 +1,6 @@
 
+fetch('http://localhost:9000/v1/reports/brief');
+
 chrome.browserAction.setBadgeText({text: '1'});
 
 chrome.browserAction.onClicked.addListener(function(tab) {
@@ -14,6 +16,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 chrome.extension.onConnect.addListener(function(port) {
     console.log("Connected .....");
+    fetch('http://localhost:9000/v1/reports/brief');
 
     
     port.onMessage.addListener(function(msg) {
