@@ -35,6 +35,8 @@ function init () {
                     footer: true,
                     send: false,
                     login: false,
+
+                    name: 'reports',
                 },
 
                 story: {
@@ -96,12 +98,15 @@ function init () {
                     }),
                 });
 
-                this.reportSendingStage = 2;
+                this.reportSendingStage = 0;
+                this.message = '';
+                this.page.send = false;
+                this.page.footer = true;
 
                 await this.update();
             },
             onLeaveReportClick () {
-                if (this.user) {
+                if (true || this.user) {
                     this.page.footer = false;
                     this.page.send = true;
                 } else {
@@ -110,19 +115,17 @@ function init () {
                 }
             },
             goLogin () {
-                this.page.header = false;
-                this.page.reports = false;
-                this.page.footer = false;
-
-                this.page.login = true;
+                this.page.name = 'login';
             },
-            closeLogin () {
-                this.page.login = false;
-
-                this.page.header = true;
-                this.page.reports = true;
-                this.page.footer = true;
-            }
+            goInvite () {
+                this.page.name = 'invite';
+            },
+            returnReports () {
+                this.page.name = 'reports';
+            },
+            goAbout () {
+                alert('БРОтзывы это отзывы для своих');
+            },
         },
     });
     console.groupEnd('Init');
