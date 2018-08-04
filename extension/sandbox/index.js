@@ -23,10 +23,23 @@ function init () {
                 url: '',
                 message: '',
                 reportSendingStage: 0,
+                
+                user: null,
 
                 reports: [],
                 totalCount: null,
             
+                page: {
+                    header: true,
+                    reports: true,
+                    footer: true,
+                    send: false,
+                    login: false,
+                },
+
+                story: {
+                    lastAction: null,
+                },
             };
             return data;
         },
@@ -86,6 +99,29 @@ function init () {
                 this.reportSendingStage = 2;
 
                 await this.update();
+            },
+            onLeaveReportClick () {
+                if (this.user) {
+                    this.page.footer = false;
+                    this.page.send = true;
+                } else {
+                    this.goLogin();
+                    this.story.lastAction = 'leaveReport';
+                }
+            },
+            goLogin () {
+                this.page.header = false;
+                this.page.reports = false;
+                this.page.footer = false;
+
+                this.page.login = true;
+            },
+            closeLogin () {
+                this.page.login = false;
+
+                this.page.header = true;
+                this.page.reports = true;
+                this.page.footer = true;
             }
         },
     });

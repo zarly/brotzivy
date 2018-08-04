@@ -5,14 +5,28 @@
         * {
             box-sizing: border-box;
         }
+        html, body {
+            width: 100%;
+            height: 100%;
+            border: 0;
+            margin: 0;
+            padding: 0;
+        }
     </style>
 </head>
-<body>
-    <div id="app" style="position: relative; height: 100%; padding-top: 50px; padding-bottom: 100px;">
-        <section style="height: 50px; position: absolute; top: 0; background: #faa; width: 100%;">
+<body style="padding: 10px;">
+    <div id="app" style="position: relative; height: 100%; padding-top: 30px; padding-bottom: 60px;">
+        <!-- ШАПКА -->
+        <section v-show="page.header" style="height: 30px; position: absolute; top: 0; width: 100%; padding: 0 10px;
+                display: flex; white-space: nowrap; align-items: baseline; justify-content: space-between;">
             <b><span style="color: #f00;">бро</span>тзывы - отзывы для своих</b>
+            <div @click="goLogin" style="text-align: right; cursor: pointer;">
+                <div style="font-size: 14px; font-weight: 500;">Войти</div>
+                <div style="width: 80%; margin-left: 20%; height: 3px; background: #2FA6F8; margin-top: 2px;">&nbsp;</div>
+            </div>
         </section>
-        <section style="height: 100%; overflow-y: auto;">
+        <!-- СПИСОК ОТЗЫВОВ -->
+        <section v-show="page.reports" style="height: 100%; overflow-y: auto; position: relative; border-top: 1px solid #f8f8f8;; border-bottom: 1px solid #f8f8f8; padding-bottom: 40px; margin-left: -10px; margin-right: -10px; padding-left: 10px; padding-right: 10px;">
             <template v-for="(report, index) in reportsWithMessages">
                 <div>
                     <div style="display: flex; white-space: nowrap; align-items: baseline; padding-left: 20px;">
@@ -24,7 +38,14 @@
                 </div>
             </template>
         </section>
-        <section style="height: 100px; outline: 1px solid #f00; position: absolute; bottom: 0; width: 100%;">
+        <!-- ФУТЕР -->
+        <section v-show="page.footer" style="height: 60px; position: absolute; bottom: 0; width: 100%; padding: 10px 100px;">
+            <div @click="onLeaveReportClick" style="border-bottom: 1px solid #888; color: #888; text-align: center; padding: 5px; font-size: 16px; cursor: pointer;">
+                Оставить отзыв
+            </div>
+        </section>
+        <!-- ФОРМА ОТПРАВКИ ОТЗЫВА -->
+        <section v-show="page.send" style="height: 100px; position: absolute; bottom: 0; width: 100%;">
             <div style="position: relative;">
                 <input type="text" v-model="url" readonly style="width: 100%; color: #aaa; border: 0; " />
                 <textarea v-model="message" 
@@ -52,6 +73,22 @@
             <div v-if="reportSendingStage === 2" style="position: relative; height: 20px; text-align: center; color: #aaa;">
                 Отправлено
             </div>
+        </section>
+        <!-- ФОРМА ЛОГИНА -->
+        <section v-show="page.login" style="height: 100%; display: flex; flex-direction: column; justify-content: center; position: relative;">
+            <div @click="closeLogin" style="position: absolute; top: -25px; right: 10px; width: 20px; height: 20px; background-image: url('img/close-icon.svg'); background-repeat: no-repeat; background-position: center center; background-size: cover; opacity: 0.3; cursor: pointer;">&nbsp;</div>
+            <div style="text-align: center; margin: 10px auto;">
+                <div style="font-size: 24px; font-weight: 500;">Войти</div>
+                <div style="width: 100%; height: 3px; background: #2FA6F8; margin-top: 2px;">&nbsp;</div>
+            </div>
+            <div style="display: flex; justify-content: center; margin: 40px auto;">
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">vk</div>
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">fb</div>
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">g+</div>
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">@</div>
+            </div>
+            <input type="text" placeholder="Введите имя" style="color: #888; border: 0; border-bottom: 1px solid #888; text-align: center; width: 60%; margin: 10px auto; padding: 5px 10px; font-size: 16px; outline: none;" />
+            <input type="text" placeholder="Введите инвайт-код" style="color: #888; border: 0; border-bottom: 1px solid #888; text-align: center; width: 60%; margin: 10px auto; padding: 5px 10px; font-size: 16px; outline: none;" />
         </section>
     </div>
     <script src="../lib/vue.js"></script>
