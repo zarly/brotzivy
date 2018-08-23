@@ -2,6 +2,7 @@
 const db = require('./db');
 const app = require('./server');
 const apiRouter = require('./api');
+const config = require('config');
 
 async function init () {
     await db.sync();
@@ -9,8 +10,8 @@ async function init () {
 
     app.use(apiRouter.routes());
 
-    app.listen(9000, function () {
-        console.log('app listening at port 9000');
+    app.listen(config.port, function () {
+        console.log(`app listening at port ${config.port}`);
     });
 }
 

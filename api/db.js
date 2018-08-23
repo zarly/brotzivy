@@ -7,6 +7,7 @@ const db = new Sequelize({
   storage: path.resolve(__dirname, '../../database.sqlite'),
 });
 
+require('./models/user').init(db);
 require('./models/report').init(db);
 
 module.exports = db;
