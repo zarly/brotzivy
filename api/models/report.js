@@ -2,7 +2,7 @@
 const Sequelize = require('sequelize');
 
 function init (db) {
-    exports.Report = db.define('report', {
+    const Report = db.define('report', {
         host: Sequelize.STRING,
         page: Sequelize.STRING,
         query: Sequelize.STRING,
@@ -18,6 +18,8 @@ function init (db) {
             }
         ]
     });
+    exports.Report = Report;
+    db.Report = Report;
 }
 
 exports.init = init;

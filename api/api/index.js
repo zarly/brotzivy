@@ -1,10 +1,10 @@
 
+const config = require('config');
 const koaBody  = require('koa-body');
 const Router = require('koa-router');
 const router = new Router();
 
-const API_VERSION = 1;
-const API_PATH = `/v${API_VERSION}`;
+const API_PATH = `/v${config.apiVersion}`;
 
 const report = require('./report');
 const user = require('./user');

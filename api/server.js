@@ -1,6 +1,8 @@
 
+const config = require('config');
 const Koa = require('koa');
 const cors = require('@koa/cors');
+const apiRouter = require('./api');
 
 const app = new Koa();
 
@@ -19,4 +21,15 @@ app.use(async (ctx, next) => {
   console.log(`${ctx.method} ${ctx.url} - ${ms}`);
 });
 
-module.exports = app;
+app.use(apiRouter.routes());
+
+function start () {
+  return new Promise((resolve, reject) => {
+    const server = app.listen(config.port, function () {
+      console.log(`app listening at port ${config.port}`);
+      resolve(server);
+    });
+  });
+}
+
+module.exports = {app, start};

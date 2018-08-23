@@ -1,18 +1,19 @@
 
 const db = require('./db');
-const app = require('./server');
-const apiRouter = require('./api');
-const config = require('config');
+const {app, start} = require('./server');
 
 async function init () {
     await db.sync();
     app.context.db = db;
-
-    app.use(apiRouter.routes());
-
-    app.listen(config.port, function () {
-        console.log(`app listening at port ${config.port}`);
-    });
+    const server = await start();
+    return {
+        db,
+        server
+    };
 }
 
-init();
+if (require.main === module) {
+    init();
+} else {
+    module.exports = {init};
+}
