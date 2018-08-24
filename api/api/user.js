@@ -27,7 +27,7 @@ async function signin (ctx, next) {
 
             ctx.body = {user: user.displayName, token: 'JWT ' + token};
         }
-    })(ctx, next);  
+    })(ctx, next);
 };
 
 async function signout (ctx, next) {
@@ -35,7 +35,14 @@ async function signout (ctx, next) {
 };
 
 async function me (ctx, next) {
-    ctx.body = null;
+    await passport.authenticate('jwt', function (err, user) {
+        if (user) {
+            ctx.body = "hello " + user.displayName;
+        } else {
+            ctx.body = "No such user";
+            console.log("err", err);
+        }
+    })(ctx, next);
 };
 
 module.exports = {

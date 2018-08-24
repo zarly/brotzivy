@@ -18,6 +18,7 @@ function init (db) {
             }
         ]
     });
+    
     exports.Report = Report;
     db.Report = Report;
 }
