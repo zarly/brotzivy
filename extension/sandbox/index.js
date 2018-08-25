@@ -1,6 +1,55 @@
 
 const API_BASE = 'http://localhost:9000/v1';
 
+const popup = {
+    _counter: 0,
+    _handlers: {},
+    _callbacks: [],
+    init () {
+        window.addEventListener('message', this._onMessage.bind(this));
+    },
+    on (event, handler) {
+        if (!this._handlers[event]) this._handlers[event] = [];
+        this._handlers[event].push(handler);
+    },
+    call (name, args) {
+        return new Promise((resolve, reject) => {
+            this._callbacks.push((msg) => {
+                this._callbacks[this.callbackIndex] = undefined;
+                resolve(msg.result);
+            });
+            const callbackIndex = this._callbacks.length - 1;
+
+            this._send({
+                type: 'call',
+                callbackIndex,
+                name,
+                args,
+            });
+        });
+    },
+    _send (msg) {
+        window.top.postMessage(msg, '*');
+    },
+    _onMessage (msg) {
+        const {data} = msg;
+        console.log('message', data);
+
+        if (data.type === 'callback') {
+            this._callbacks[data.callbackIndex](data);
+        }
+        if (this._handlers[data.type]) {
+            this._handlers[data.type].forEach(h => h(data));
+        }
+    },
+    setItem (name, value) {
+        return this.call('setItem', [name, value]);
+    },
+    getItem (name) {
+        return this.call('getItem', [name]);
+    },
+};
+
 function formatDate (date) {
     const Y = date.substr(0, 4);
     const M = date.substr(5, 2);
@@ -13,12 +62,14 @@ function init () {
     var app = new Vue({
         el: '#app',
         data () {
-            var data = {
+            var appData = {
                 initPromise: new Promise(function (resolve, reject) {
-                    window.addEventListener('message', function ({data}) {
-                        console.log('init', data)
-                        data.url = data.url;
-                        data.authToken = data.authToken;
+                    popup.init();
+                    popup.on('sandboxInit', function (data) {
+                        console.log('sandboxInit', appData)
+                        appData.url = data.url;
+                        appData.authToken = data.authToken;
+                        appData.user = data.user;
                         resolve();
                     });
                 }),
@@ -52,7 +103,7 @@ function init () {
                     error: '',
                 }
             };
-            return data;
+            return appData;
         },
         computed: {
             reportsWithMessages () {
@@ -65,6 +116,9 @@ function init () {
         },
         methods: {
             async update () {
+                await this.initPromise;
+
+                console.log('this.url', this.url);
                 const pageUrl = new URL(this.url);
                 const apiUrl = new URL(API_BASE + '/reports/list');
                 apiUrl.searchParams.append('host', pageUrl.host);
@@ -99,6 +153,7 @@ function init () {
                     headers: {
                         'Accept': 'application/json',
                         'Content-Type': 'application/json',
+                        'X-Auth': `Token ${this.authToken}`,
                     },
                     body: JSON.stringify({
                         url: this.url,
@@ -139,11 +194,6 @@ function init () {
                 alert('БРОтзывы это отзывы для своих');
             },
 
-            setAuthToken (token) {
-                this.authToken = token;
-                // localStorage.setItem('authToken', token || '');
-            },
-
             async onLoginSubmit () {
                 const response = await fetch(API_BASE + '/user/signup', {
                         method: 'POST',
@@ -166,11 +216,26 @@ function init () {
                     this.loginForm.displayName = '';
                     this.loginForm.inviteCode = '';
                     this.loginForm.error = '';
+
                     this.user = user;
-                    this.setAuthToken(token);
+                    popup.setItem('user', user);
+
+                    this.authToken = token;
+                    popup.setItem('authToken', token);
+
                     this.returnReports();
                 }
-            }
+            },
+
+            singOut () {
+                this.user = null;
+                popup.setItem('user', null);
+
+                this.authToken = null;
+                popup.setItem('authToken', null);
+
+                this.returnReports();
+            },
         },
     });
     console.groupEnd('Init');

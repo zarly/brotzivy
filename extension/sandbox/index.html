@@ -25,7 +25,7 @@
                 <div style="width: 80%; margin-left: 20%; height: 3px; background: #2FA6F8; margin-top: 2px;">&nbsp;</div>
             </div>
             <div v-if="user" @click="goProfile" style="text-align: right; cursor: pointer;">
-                <div v-text="user.displayName" style="font-size: 14px; font-weight: 500;"></div>
+                <div v-text="' ' + user.displayName" style="font-size: 14px; font-weight: 500;"></div>
                 <div style="width: 80%; margin-left: 20%; height: 3px; background: #2FA6F8; margin-top: 2px;">&nbsp;</div>
             </div>
         </section>
@@ -95,7 +95,7 @@
                 <input v-model="loginForm.displayName" type="text" placeholder="Введите имя" style="color: #888; border: 0; border-bottom: 1px solid #888; text-align: center; width: 60%; margin: 10px auto; padding: 5px 10px; font-size: 16px; outline: 0;" />
                 <input v-model="loginForm.inviteCode" type="text" placeholder="Введите инвайт-код" style="color: #888; border: 0; border-bottom: 1px solid #888; text-align: center; width: 60%; margin: 10px auto; padding: 5px 10px; font-size: 16px; outline: 0;" />
                 <div v-text="loginForm.error" style="width: 80%; margin: 0 auto; color: #f00; font-size: 12px; text-align: center;"></div>
-                <button type="submit" style="background: #2FA6F8; border-radius: 5px; color: #fff; width: 60%; margin: 15px auto; padding: 5px 10px; font-size: 16px; border: 0; outline: 0;">Войти</button>
+                <button type="submit" style="background: #2FA6F8; border-radius: 5px; color: #fff; width: 60%; margin: 15px auto; padding: 5px 10px; font-size: 16px; border: 0; outline: 0; cursor: pointer;">Войти</button>
             </form>
             <!--div @click="goAbout" style="position: absolute; bottom: 0; left: 0; right: 0; font-weight: bold; text-align: center; opacity: 0.5; cursor: pointer;">
                 <span style="color: #f00;">бро</span>тзывы - отзывы для своих
@@ -112,11 +112,21 @@
         <!-- ПРОФИЛЬ ПОЛЬЗОВАТЕЛЯ -->
         <section v-show="page.name === 'me'" style="height: 100%; display: flex; flex-direction: column; justify-content: center; position: relative;">
             <div @click="returnReports" style="position: absolute; top: -25px; right: 10px; width: 20px; height: 20px; background-image: url('img/close-icon.svg'); background-repeat: no-repeat; background-position: center center; background-size: cover; opacity: 0.3; cursor: pointer;">&nbsp;</div>
-            <h2>Профиль</h2>
-            <input type="text" value="KJHGghgj" style="color: #2FA6F8; border: 0; border-bottom: 1px solid #aaa; text-align: center; width: 80%; margin: 10px auto; padding: 10px; font-size: 30px; outline: none;" />
+            <div style="text-align: center; margin: 10px auto;">
+                <div style="font-size: 24px; font-weight: 500;">Настройки</div>
+                <div style="width: 100%; height: 3px; background: #2FA6F8; margin-top: 2px;">&nbsp;</div>
+            </div>
+            <div style="display: flex; justify-content: center; margin: 40px auto;">
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">vk</div>
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">fb</div>
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">g+</div>
+                <div style="width: 25px; height: 25px; margin: 0 10px; background: #2FA6F8; border-radius: 5px; color: #fff; font-size: 16px; font-weight: bold; cursor: pointer; text-align: center;">@</div>
+            </div>
+            <input type="text" value="KJHGghgj" style="color: #2FA6F8; border: 0; border-bottom: 1px solid #aaa; text-align: center; width: 80%; margin: 10px auto; padding: 10px; font-size: 24px; outline: none;" />
             <div style="width: 70%; margin: 10px auto; text-align: center; color: #888;">
                 Скопируй инвайт-код и отправь самым верным друзьям. Никогда не публикуй код в открытом доступе, чтобы к нам не пришли спамеры. Код действует 3 дня с момента создания
             </div>
+            <button @click="singOut" style="background: #2FA6F8; border-radius: 5px; color: #fff; width: 60%; margin: 50px auto 0; padding: 5px 10px; font-size: 16px; border: 0; outline: 0; cursor: pointer;">Разлогиниться</button>
         </section>
     </div>
     <script src="../lib/vue.js"></script>
