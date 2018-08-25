@@ -47,23 +47,32 @@ async function getSelectedTab () {
 }
 
 async function updateActiveTabCounter () {
-    const tab = await getSelectedTab();
-    const url = new URL(tab.url);
+    try {
+        const tab = await getSelectedTab();
+        const url = new URL(tab.url);
+        const data = await askBrief(url.hostname, url.pathname);
+
+        if (data.page) {
+            chrome.browserAction.setBadgeText({text: `${data.page}`});
+            chrome.browserAction.setBadgeBackgroundColor({color: "#4444FF"}, res => {});
+        } else if (data.host) {
+            chrome.browserAction.setBadgeText({text: `${data.host}`});
+            chrome.browserAction.setBadgeBackgroundColor({color: "#888888"}, res => {});
+        } else {
+            chrome.browserAction.setBadgeText({text: ``});
+        }
+    } catch (e) {
+        chrome.browserAction.setBadgeText({text: ``});
+        console.warn(e);
+    }
+}
+
+async function askBrief (host, page) {
     const apiUrl = new URL(API_BASE + '/reports/brief');
-    apiUrl.searchParams.append('host', url.hostname);
-    apiUrl.searchParams.append('page', url.pathname);
+    apiUrl.searchParams.append('host', host);
+    apiUrl.searchParams.append('page', page);
 
     const res = await fetch(apiUrl);
-    const data = await res.json();
-
-    if (data.page) {
-        chrome.browserAction.setBadgeText({text: `${data.page}`});
-        chrome.browserAction.setBadgeBackgroundColor({color: "#4444FF"}, res => {});
-    } else if (data.host) {
-        chrome.browserAction.setBadgeText({text: `${data.host}`});
-        chrome.browserAction.setBadgeBackgroundColor({color: "#888888"}, res => {});
-    } else {
-        chrome.browserAction.setBadgeText({text: ``});
-    }
+    return await res.json();
 }
 
