@@ -2,13 +2,35 @@
 const {URL} = require('url');
 const {User} = require('../models/user');
 
+async function checkInviteCode (code) {
+    if (code === '111') {
+        return {valid: true, inviter: -1};
+    } else {
+        console.log('error: invalid invite code', code);
+        return {valid: false};
+    }
+}
+
 async function signup (ctx, next) {
     try {
-        ctx.body = await User.create(ctx.request.body);
+        const data = ctx.request.body;
+        const inviteData = await checkInviteCode(data.inviteCode);
+        if (!inviteData.valid) throw {message: 'Неверный инвайт-код'};
+
+        const user = await User.create({
+            displayName: data.displayName
+        });
+        const token = '222';
+        ctx.body = {user, token};
     }
-    catch (err) {
+    catch (error) {
         ctx.status = 400;
-        ctx.body = err;
+        ctx.body = {
+            error: {
+                code: error.code,
+                message: error.message,
+            }
+        };
     }
 };
 

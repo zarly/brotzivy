@@ -15,8 +15,10 @@ function init () {
         data () {
             var data = {
                 initPromise: new Promise(function (resolve, reject) {
-                    window.addEventListener('message', function (msg) {
-                        data.url = msg.data;
+                    window.addEventListener('message', function ({data}) {
+                        console.log('init', data)
+                        data.url = data.url;
+                        data.authToken = data.authToken;
                         resolve();
                     });
                 }),
@@ -25,6 +27,7 @@ function init () {
                 reportSendingStage: 0,
                 
                 user: null,
+                authToken: null,
 
                 reports: [],
                 totalCount: null,
@@ -42,6 +45,12 @@ function init () {
                 story: {
                     lastAction: null,
                 },
+
+                loginForm: {
+                    displayName: '',
+                    inviteCode: '',
+                    error: '',
+                }
             };
             return data;
         },
@@ -106,7 +115,7 @@ function init () {
                 await this.update();
             },
             onLeaveReportClick () {
-                if (true || this.user) {
+                if (this.user) {
                     this.page.footer = false;
                     this.page.send = true;
                 } else {
@@ -120,12 +129,48 @@ function init () {
             goInvite () {
                 this.page.name = 'invite';
             },
+            goProfile () {
+                this.page.name = 'me';
+            },
             returnReports () {
                 this.page.name = 'reports';
             },
             goAbout () {
                 alert('БРОтзывы это отзывы для своих');
             },
+
+            setAuthToken (token) {
+                this.authToken = token;
+                // localStorage.setItem('authToken', token || '');
+            },
+
+            async onLoginSubmit () {
+                const response = await fetch(API_BASE + '/user/signup', {
+                        method: 'POST',
+                        headers: {
+                            'Accept': 'application/json',
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            displayName: this.loginForm.displayName,
+                            inviteCode: this.loginForm.inviteCode,
+                        }),
+                    })
+                    .then(res => res.json())
+                    .catch(err => ({message: err.toString()}));
+
+                const {user, error, token} = response;
+                if (error) {
+                    this.loginForm.error = error.message;
+                } else {
+                    this.loginForm.displayName = '';
+                    this.loginForm.inviteCode = '';
+                    this.loginForm.error = '';
+                    this.user = user;
+                    this.setAuthToken(token);
+                    this.returnReports();
+                }
+            }
         },
     });
     console.groupEnd('Init');

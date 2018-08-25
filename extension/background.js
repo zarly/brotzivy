@@ -21,7 +21,12 @@ chrome.extension.onConnect.addListener(function(port) {
     
     port.onMessage.addListener(function(msg) {
         chrome.tabs.getSelected(null, function(tab) {
-            port.postMessage(tab.url);
+            const authToken = localStorage.getItem('authToken') || null;            
+            port.postMessage({
+                url: tab.url,
+                authToken,
+                user: {},
+            });
         });
     });
 });
