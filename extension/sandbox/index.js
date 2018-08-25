@@ -121,7 +121,7 @@ function init () {
                 console.log('this.url', this.url);
                 const pageUrl = new URL(this.url);
                 const apiUrl = new URL(API_BASE + '/reports/list');
-                apiUrl.searchParams.append('host', pageUrl.host);
+                apiUrl.searchParams.append('host', pageUrl.hostname);
                 apiUrl.searchParams.append('page', pageUrl.pathname);
 
                 const res = await fetch(apiUrl);
