@@ -8,12 +8,12 @@
     "docker-base:build": "docker build --no-cache -t reports-base -f DockerfileBase .",
     "docker-base:bash": "docker run -it reports-base -f DockerfileBase /bin/bash",
     "docker-base:save": "docker save -o backup/reports-base.tar reports-base",
-    "docker-base:load": "docker load -i backup/reports-base.tar reports-base",
+    "docker-base:load": "docker load -i backup/reports-base.tar",
     "docker:build": "docker build --no-cache -t reports .",
-    "docker:run": "docker run -p 8080:9000 reports",
-    "docker:bash": "docker run -p 8080:9000 -it reports /bin/bash",
+    "docker:run": "docker run -p 9000:9000 reports",
+    "docker:bash": "docker run -p 9000:9000 -it reports /bin/bash",
     "docker:save": "docker save -o backup/reports.tar reports",
-    "docker:load": "docker load -i backup/reports.tar reports"
+    "docker:load": "docker load -i backup/reports.tar"
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",
