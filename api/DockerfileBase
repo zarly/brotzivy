@@ -1,9 +1,17 @@
 FROM ubuntu:16.04
 ENV DEBIAN_FRONTEND noninteractive
 
+# create postgres user
+RUN set -eux; \
+	groupadd -r postgres; \
+	useradd -r -g postgres --home-dir=/var/lib/postgresql --shell=/bin/bash postgres; \
+	mkdir -p /var/lib/postgresql; \
+	chown -R postgres:postgres /var/lib/postgresql
+
+# install applications
 RUN apt update
 RUN apt install -y build-essential psmisc sudo vim htop supervisor telnet curl git
-RUN apt install -y postgresql postgresql-contrib
+RUN apt install -y postgresql-9.5 postgresql-client-9.5 postgresql-contrib-9.5
 RUN curl -sL https://deb.nodesource.com/setup_8.x | bash -
 RUN apt install -y nodejs
 RUN apt -qq clean

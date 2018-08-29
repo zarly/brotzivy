@@ -5,15 +5,18 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha \"./{,!(node_modules)/**/}*.spec.js\"",
+    "docker-pg:build": "docker build --no-cache -t reports-pg -f DockerfilePG .",
+    "docker-pg:bash": "docker run -it reports-pg /bin/bash",
     "docker-base:build": "docker build --no-cache -t reports-base -f DockerfileBase .",
     "docker-base:bash": "docker run -it reports-base -f DockerfileBase /bin/bash",
     "docker-base:save": "docker save -o backup/reports-base.tar reports-base",
     "docker-base:load": "docker load -i backup/reports-base.tar",
-    "docker:build": "docker build --no-cache -t reports .",
+    "docker:build": "docker build --no-cache -t reports -f Dockerfile .",
     "docker:run": "docker run -p 9000:9000 reports",
     "docker:bash": "docker run -p 9000:9000 -it reports /bin/bash",
     "docker:save": "docker save -o backup/reports.tar reports",
-    "docker:load": "docker load -i backup/reports.tar"
+    "docker:load": "docker load -i backup/reports.tar",
+    "docker:clean": "docker rm -vf $(docker ps -aq) && docker rmi -f $(docker images -aq) && docker volume prune -f && docker system prune -a -f"
   },
   "dependencies": {
     "@koa/cors": "^2.2.1",

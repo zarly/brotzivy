@@ -2,6 +2,11 @@
     "port": 9000,
     "apiVersion": 1,
     "db": {
-        "name": "reports"
+        "database": "postgresondocker",
+        "username": "postgresondocker",
+        "password": "postgresondocker",
+        "config": {
+            "dialect": "postgres"
+        }
     }
 }
