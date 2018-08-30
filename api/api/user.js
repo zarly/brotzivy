@@ -3,7 +3,7 @@ const {URL} = require('url');
 const {User} = require('../models/user');
 
 async function checkInviteCode (code) {
-    if (code === '111') {
+    if (code === '231') {
         return {valid: true, inviter: -1};
     } else {
         console.log('error: invalid invite code', code);
@@ -20,7 +20,7 @@ async function signup (ctx, next) {
         const user = await User.create({
             displayName: data.displayName
         });
-        const token = '222';
+        const token = '231-' + Math.random().toFixed(10).substr(2);
         ctx.body = {user, token};
     }
     catch (error) {

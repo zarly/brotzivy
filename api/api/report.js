@@ -7,9 +7,10 @@ async function list (ctx, next) {
 
     const reports = await Report.findAndCountAll({
         where: {
-            host: query.host
+            host: query.host,
+            page: query.page
         },
-        limit: 20,
+        limit: 50,
     });
     ctx.body = reports;
 };
@@ -34,11 +35,11 @@ async function write (ctx, next) {
 async function brief (ctx, next) {
     const query = ctx.request.query;
 
-    const host = await Report.count({
-        where: {
-            host: query.host
-        },
-    });
+    // const host = await Report.count({
+    //     where: {
+    //         host: query.host
+    //     },
+    // });
     const page = await Report.count({
         where: {
             host: query.host,
@@ -46,7 +47,7 @@ async function brief (ctx, next) {
         },
     });
     ctx.body = {
-        host,
+        // host,
         page,
     };
 };

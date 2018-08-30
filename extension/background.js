@@ -54,10 +54,10 @@ async function updateActiveTabCounter () {
 
         if (data.page) {
             chrome.browserAction.setBadgeText({text: `${data.page}`});
-            chrome.browserAction.setBadgeBackgroundColor({color: "#4444FF"}, res => {});
-        } else if (data.host) {
-            chrome.browserAction.setBadgeText({text: `${data.host}`});
-            chrome.browserAction.setBadgeBackgroundColor({color: "#888888"}, res => {});
+            chrome.browserAction.setBadgeBackgroundColor({color: "#4E76A6"}, res => {});
+        // } else if (data.host) {
+        //     chrome.browserAction.setBadgeText({text: `${data.host}`});
+        //     chrome.browserAction.setBadgeBackgroundColor({color: "#888888"}, res => {});
         } else {
             chrome.browserAction.setBadgeText({text: ``});
         }
