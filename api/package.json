@@ -5,8 +5,6 @@
   "scripts": {
     "start": "node index.js",
     "test": "mocha \"./{,!(node_modules)/**/}*.spec.js\"",
-    "docker-pg:build": "docker build --no-cache -t reports-pg -f DockerfilePG .",
-    "docker-pg:bash": "docker run -it reports-pg /bin/bash",
     "docker-base:build": "docker build --no-cache -t reports-base -f DockerfileBase .",
     "docker-base:bash": "docker run -it reports-base -f DockerfileBase /bin/bash",
     "docker-base:save": "docker save -o backup/reports-base.tar reports-base",
