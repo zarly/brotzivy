@@ -1,5 +1,5 @@
 {
     "db": {
-        "name": "reports_test"
+        "database": "reports_dev"
     }
 }

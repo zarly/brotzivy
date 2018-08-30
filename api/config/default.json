@@ -4,7 +4,6 @@
     "db": {
         "database": "reports",
         "username": "reports_owner",
-        "password": "postgresondocker",
         "config": {
             "dialect": "postgres"
         }
