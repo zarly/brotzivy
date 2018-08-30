@@ -1,5 +1,5 @@
 
-const API_BASE = 'http://localhost:9000/v1';
+const API_BASE = 'http://89.108.103.218/v1';
 
 chrome.browserAction.onClicked.addListener(function(tab) {
     chrome.browserAction.setPopup({popup: 'popup/index.html'});

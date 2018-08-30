@@ -17,7 +17,7 @@
 <body style="padding: 10px;">
     <div id="app" style="position: relative; height: 100%; padding-top: 30px; padding-bottom: 60px;">
         <!-- ШАПКА -->
-        <section v-show="page.name === 'reports' && page.header" style="height: 30px; position: absolute; top: 0; width: 100%; padding: 0 10px;
+        <!--section v-show="page.name === 'reports' && page.header" style="height: 30px; position: absolute; top: 0; width: 100%; padding: 0 10px;
                 display: flex; white-space: nowrap; align-items: baseline; justify-content: space-between;">
             <div @click="goInvite" style="width: 20px; height: 20px; background-image: url('img/add-user.svg'); background-repeat: no-repeat; background-position: center center; background-size: cover; cursor: pointer;">&nbsp;</div>
             <div v-if="!user" @click="goLogin" style="text-align: right; cursor: pointer;">
@@ -28,7 +28,7 @@
                 <div v-text="' ' + user.displayName" style="font-size: 14px; font-weight: 500;"></div>
                 <div style="width: 80%; margin-left: 20%; height: 3px; background: #2FA6F8; margin-top: 2px;">&nbsp;</div>
             </div>
-        </section>
+        </section-->
         <!-- СПИСОК ОТЗЫВОВ -->
         <section v-show="page.name === 'reports' && page.reports" style="height: 100%; overflow-y: auto; position: relative; border-top: 1px solid #f8f8f8;; border-bottom: 1px solid #f8f8f8; padding-bottom: 40px; margin-left: -10px; margin-right: -10px; padding-left: 10px; padding-right: 10px;">
             <template v-for="(report, index) in reportsWithMessages">
@@ -36,7 +36,7 @@
                     <div style="display: flex; white-space: nowrap; align-items: baseline; padding-left: 20px;">
                         <div v-text="report.author" style="font-size: 16px; width: 120px;"></div>
                         <div v-text="report.date" style="font-size: 10px; width: 60px; color: #aaa;"></div>
-                        <div v-text="report.mark" :style="{color: report.markColor}" style="font-size: 12px; width: 30px; font-weight: bold;">+5</div>
+                        <div v-text="report.mark" :style="{color: report.markColor}" style="font-size: 12px; width: 30px; font-weight: bold;"></div>
                     </div>
                     <div v-text="report.message" style="background: #2FA6F8; display: inline-block; padding: 8px 20px 10px 20px; border-radius: 20px; color: #fff; font-size: 16px; margin: 5px 0;"></div>
                 </div>
@@ -55,21 +55,21 @@
                 <textarea v-model="message" 
                 :readonly="reportSendingStage !== 0"
                 placeholder="Отзыв о странице..." 
-                style="width: 100%; height: 60px; resize: none; outline: 0;"
+                style="width: 100%; height: 60px; resize: none; outline: 0; border-radius: 10px; margin-bottom: 5px; border: 1px solid #2FA6F8; padding: 3px 5px;"
                 :style="{opacity: (reportSendingStage === 0 ? 1 : 0.5)}"></textarea>
             </div>
             <div v-if="reportSendingStage === 0" style="position: relative; height: 20px;">
-                <button @click="sendReport(1)" style="position: absolute; top: 0; left: 0; width: 8%; height: 20px;">1</button>
-                <button @click="sendReport(2)" style="position: absolute; top: 0; left: 8%; width:8%; height: 20px;">2</button>
-                <button @click="sendReport(3)" style="position: absolute; top: 0; left: 16%; width: 8%; height: 20px;">3</button>
-                <button @click="sendReport(4)" style="position: absolute; top: 0; left: 24%; width: 8%; height: 20px;">4</button>
-                <button @click="sendReport(5)" style="position: absolute; top: 0; left: 32%; width: 8%; height: 20px;">5</button>
-                <button @click="sendReport(null)" style="position: absolute; top: 0; left: 40%; width: 20%; height: 20px;" title="Нейтрально">?</button>
-                <button @click="sendReport(6)" style="position: absolute; top: 0; left: 60%; width: 8%; height: 20px;">6</button>
-                <button @click="sendReport(7)" style="position: absolute; top: 0; left: 68%; width: 8%; height: 20px;">7</button>
-                <button @click="sendReport(8)" style="position: absolute; top: 0; left: 76%; width: 8%; height: 20px;">8</button>
-                <button @click="sendReport(9)" style="position: absolute; top: 0; left: 84%; width: 8%; height: 20px;">9</button>
-                <button @click="sendReport(10)" style="position: absolute; top: 0; left: 92%; width: 8%; height: 20px;">10</button>
+                <button @click="sendReport(1)" style="position: absolute; top: 0; left: 0;      width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2); border-radius: 5px 0 0 5px;">-5</button>
+                <button @click="sendReport(2)" style="position: absolute; top: 0; left: 8%;     width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">-4</button>
+                <button @click="sendReport(3)" style="position: absolute; top: 0; left: 16%;    width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">-3</button>
+                <button @click="sendReport(4)" style="position: absolute; top: 0; left: 24%;    width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">-2</button>
+                <button @click="sendReport(5)" style="position: absolute; top: 0; left: 32%;    width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">-1</button>
+                <button @click="sendReport(null)" style="position: absolute; top: 0; left: 40%; width:20%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);" title="Нейтрально">ОК</button>
+                <button @click="sendReport(6)" style="position: absolute; top: 0; left: 60%;    width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">+1</button>
+                <button @click="sendReport(7)" style="position: absolute; top: 0; left: 68%;    width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">+2</button>
+                <button @click="sendReport(8)" style="position: absolute; top: 0; left: 76%;    width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">+3</button>
+                <button @click="sendReport(9)" style="position: absolute; top: 0; left: 84%;    width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-right: 1px solid rgba(255, 255, 255, 0.2);">+4</button>
+                <button @click="sendReport(10)" style="position: absolute; top: 0; left: 92%;   width: 8%; height: 20px; border: 0; background: #2FA6F8; color: #fff; border-radius: 0 5px 5px 0;">+5</button>
             </div>
             <div v-if="reportSendingStage === 1" style="position: relative; height: 20px; text-align: center;">
                 Отправка...
@@ -97,9 +97,9 @@
                 <div v-text="loginForm.error" style="width: 80%; margin: 0 auto; color: #f00; font-size: 12px; text-align: center;"></div>
                 <button type="submit" style="background: #2FA6F8; border-radius: 5px; color: #fff; width: 60%; margin: 15px auto; padding: 5px 10px; font-size: 16px; border: 0; outline: 0; cursor: pointer;">Войти</button>
             </form>
-            <!--div @click="goAbout" style="position: absolute; bottom: 0; left: 0; right: 0; font-weight: bold; text-align: center; opacity: 0.5; cursor: pointer;">
+            <div @click="goAbout" style="position: absolute; bottom: 0; left: 0; right: 0; font-weight: bold; text-align: center; opacity: 0.5; cursor: pointer;">
                 <span style="color: #f00;">бро</span>тзывы - отзывы для своих
-            </div-->
+            </div>
         </section>
         <!-- ФОРМА ПРИГЛАШЕНИЯ -->
         <section v-show="page.name === 'invite'" style="height: 100%; display: flex; flex-direction: column; justify-content: center; position: relative;">

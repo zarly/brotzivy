@@ -1,5 +1,5 @@
 
-const API_BASE = 'http://localhost:9000/v1';
+const API_BASE = 'http://89.108.103.218/v1';
 
 const popup = {
     _counter: 0,
@@ -170,7 +170,7 @@ function init () {
                 await this.update();
             },
             onLeaveReportClick () {
-                if (this.user) {
+                if (1 || this.user) { // TODO: implement
                     this.page.footer = false;
                     this.page.send = true;
                 } else {
